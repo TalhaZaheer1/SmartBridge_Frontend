@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DashBoard</title>
+
+    <style>
+      .goog-te-banner-frame.skiptranslate,
+      #goog-gt-tt,
+      .goog-te-balloon-frame,
+      .goog-te-menu-frame,
+      #google_translate_element {
+        display: none !important;
+      }
+
+      body {
+        top: 0px !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Hidden Translate Container -->
+    <div id="google_translate_element" style="display: none"></div>
+
+    <!-- React Root -->
+    <div id="root"></div>
+
+    <!-- Your Main React App -->
+    <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            includedLanguages: "en,zh-CN",
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false,
+          },
+          "google_translate_element"
+        );
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
+
+    <!-- Optional: Auto-translate to Chinese if browser language is Chinese -->
+    <script>
+      window.addEventListener("load", function () {
+        const savedLang = localStorage.getItem("selectedLanguage");
+        const userLang = navigator.language || navigator.userLanguage;
+        const preferredLang =
+          savedLang || (userLang.startsWith("zh") ? "zh-CN" : "en");
+
+        // Function to set the language
+        const applyLanguage = () => {
+          const select = document.querySelector("select.goog-te-combo");
+          if (select && select.value !== preferredLang) {
+            select.value = preferredLang;
+            select.dispatchEvent(new Event("change"));
+            return true;
+          }
+          return false;
+        };
+
+        // Repeatedly try applying the language until it sticks
+        let attempts = 0;
+        const interval = setInterval(() => {
+          if (applyLanguage() || attempts > 20) {
+            clearInterval(interval);
+          }
+          attempts++;
+        }, 300);
+
+        // Track user language change
+        const observer = new MutationObserver(() => {
+          const select = document.querySelector("select.goog-te-combo");
+          if (select && !select.hasAttribute("data-listener-added")) {
+            select.addEventListener("change", () => {
+              localStorage.setItem("selectedLanguage", select.value);
+            });
+            select.setAttribute("data-listener-added", "true");
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+    </script>
+  </body>
+</html>

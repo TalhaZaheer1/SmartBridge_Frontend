@@ -263,6 +263,34 @@
   "cancelled": "已取消",
   "delivered": "已送达"
 },
+ "adminOrders": {
+    "title": "订单管理",
+    "exportCSV": "导出 CSV",
+    "exportPDF": "导出 PDF",
+    "headers": {
+      "product": "产品",
+      "category": "分类",
+      "buyer": "买家",
+      "vendor": "商家",
+      "price": "价格",
+      "fee": "手续费",
+      "total": "总计",
+      "status": "状态",
+      "date": "日期"
+    },
+    "status": {
+      "placed": "已下单",
+      "cancelled": "已取消",
+      "delivered": "已送达"
+    },
+    "toast": {
+      "fetchError": "加载订单失败",
+      "csvFail": "CSV 导出失败",
+      "pdfFail": "PDF 导出失败",
+      "statusUpdated": "订单状态已更新",
+      "statusFail": "状态更新失败"
+    }
+  },
 "payment1": {
   "title": "管理员 - 支付页面配置",
   "wechatId": "微信账号",

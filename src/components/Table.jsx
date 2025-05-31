@@ -58,22 +58,31 @@ const Table = ({ headers = [], rows = [] }) => {
           setSearch(e.target.value);
           setCurrentPage(1);
         }}
+        aria-label={t("table.search")}
       />
 
-      <div className="overflow-auto rounded-xl border shadow-sm bg-white">
-        <table className="min-w-full divide-y divide-gray-200 text-sm text-gray-700">
-          <thead className="bg-gray-100">
-            <tr>
+      <div className="overflow-x-auto rounded-xl border shadow-sm bg-white">
+        <table className="min-w-full divide-y divide-gray-200 text-sm text-gray-700" role="table">
+          <thead className="bg-gray-100" role="rowgroup">
+            <tr role="row">
               {headers.map((header, idx) => (
                 <th
                   key={idx}
+                  scope="col"
                   className="px-5 py-3 text-left font-semibold text-xs uppercase text-gray-600 cursor-pointer select-none"
                   onClick={() => handleSort(idx)}
+                  role="columnheader"
+                  tabIndex={0}
+                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleSort(idx)}
                 >
                   <div className="flex items-center gap-1">
                     {header}
                     {sortConfig.column === idx ? (
-                      sortConfig.direction === "asc" ? <FaSortUp /> : <FaSortDown />
+                      sortConfig.direction === "asc" ? (
+                        <FaSortUp className="text-indigo-500" />
+                      ) : (
+                        <FaSortDown className="text-indigo-500" />
+                      )
                     ) : (
                       <FaSort className="text-gray-400" />
                     )}
@@ -82,26 +91,31 @@ const Table = ({ headers = [], rows = [] }) => {
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-gray-100" role="rowgroup">
             {paginatedRows.length > 0 ? (
               paginatedRows.map((row, rowIndex) => (
                 <motion.tr
                   key={rowIndex}
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: rowIndex * 0.03 }}
+                  transition={{ duration: 0.3, delay: 0.01 * rowIndex }}
                   className="hover:bg-indigo-50 transition"
+                  role="row"
                 >
                   {row.map((cell, colIndex) => (
-                    <td key={colIndex} className="px-5 py-3 whitespace-nowrap">
+                    <td key={colIndex} className="px-5 py-3 whitespace-nowrap" role="cell">
                       {cell}
                     </td>
                   ))}
                 </motion.tr>
               ))
             ) : (
-              <tr>
-                <td colSpan={headers.length} className="px-5 py-4 text-center text-gray-400">
+              <tr role="row">
+                <td
+                  colSpan={headers.length}
+                  className="px-5 py-4 text-center text-gray-400"
+                  role="cell"
+                >
                   {t("table.noData")}
                 </td>
               </tr>
@@ -112,7 +126,7 @@ const Table = ({ headers = [], rows = [] }) => {
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="flex justify-center gap-2 items-center text-sm">
+        <div className="flex justify-center gap-1 flex-wrap text-sm pt-2">
           <button
             disabled={currentPage === 1}
             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
@@ -125,7 +139,7 @@ const Table = ({ headers = [], rows = [] }) => {
               key={i}
               onClick={() => setCurrentPage(i + 1)}
               className={`px-3 py-1 border rounded ${
-                currentPage === i + 1 ? "bg-indigo-500 text-white" : ""
+                currentPage === i + 1 ? "bg-indigo-600 text-white" : "hover:bg-gray-100"
               }`}
             >
               {i + 1}

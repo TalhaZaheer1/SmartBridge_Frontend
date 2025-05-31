@@ -345,7 +345,35 @@
   "submit": "Send Message",
   "error": "Please fill out all fields.",
   "success": "Message sent successfully!"
-}
+},
+"adminOrders": {
+    "title": "Order Management",
+    "exportCSV": "Export CSV",
+    "exportPDF": "Export PDF",
+    "headers": {
+      "product": "Product",
+      "category": "Category",
+      "buyer": "Buyer",
+      "vendor": "Vendor",
+      "price": "Price",
+      "fee": "Fee",
+      "total": "Total",
+      "status": "Status",
+      "date": "Date"
+    },
+    "status": {
+      "placed": "Placed",
+      "cancelled": "Cancelled",
+      "delivered": "Delivered"
+    },
+    "toast": {
+      "fetchError": "Failed to load orders",
+      "csvFail": "CSV export failed",
+      "pdfFail": "PDF export failed",
+      "statusUpdated": "Order status updated",
+      "statusFail": "Failed to update status"
+    }
+  }
 
 
 

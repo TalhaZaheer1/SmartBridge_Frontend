@@ -5,7 +5,7 @@ const Store = () => {
   return (
     <>
     <Navbar/>
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 mt-16">
       <SearchBar />
     </div>
     </>

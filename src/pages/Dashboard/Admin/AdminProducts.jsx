@@ -13,6 +13,7 @@ const AdminProducts = () => {
 
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
   const [newProduct, setNewProduct] = useState({
     title: "",
     description: "",
@@ -27,9 +28,7 @@ const AdminProducts = () => {
       const res = await axios.get(`${API_URL}/products`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-
-      const data = Array.isArray(res.data) ? res.data : [];
-      setProducts(data);
+      setProducts(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error("Fetch error:", err);
       toast.error(t("product.fetchError"));
@@ -41,24 +40,26 @@ const AdminProducts = () => {
   }, []);
 
   const handleFileChange = (e) => {
-    setNewProduct({ ...newProduct, image: e.target.files[0] });
+    const file = e.target.files[0];
+    setNewProduct({ ...newProduct, image: file });
+    if (file) setPreviewImage(URL.createObjectURL(file));
   };
 
   const handleCreate = async () => {
-    try {
-      const formData = new FormData();
-      Object.entries(newProduct).forEach(([key, val]) => {
-        if (val) formData.append(key, val);
-      });
+    const formData = new FormData();
+    Object.entries(newProduct).forEach(([key, val]) => {
+      if (val) formData.append(key, val);
+    });
 
+    try {
       await axios.post(`${API_URL}/products`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
       toast.success(t("product.created"));
+      setShowModal(false);
       setNewProduct({
         title: "",
         description: "",
@@ -67,7 +68,7 @@ const AdminProducts = () => {
         storeLevels: "",
         image: null,
       });
-      setShowModal(false);
+      setPreviewImage(null);
       fetchProducts();
     } catch (err) {
       toast.error(t("product.createError"));
@@ -133,11 +134,14 @@ const AdminProducts = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center">
-          <div className="bg-white text-black w-full max-w-2xl rounded p-6 relative">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center px-4">
+          <div className="bg-white text-black w-full max-w-2xl rounded-lg p-6 relative">
             <button
-              className="absolute top-2 right-2 text-black hover:text-red-600"
-              onClick={() => setShowModal(false)}
+              className="absolute top-3 right-3 text-black hover:text-red-600"
+              onClick={() => {
+                setShowModal(false);
+                setPreviewImage(null);
+              }}
             >
               <FaTimes />
             </button>
@@ -178,7 +182,20 @@ const AdminProducts = () => {
                 onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
                 className="border px-3 py-2 rounded md:col-span-2"
               />
-              <input type="file" onChange={handleFileChange} className="md:col-span-2" />
+              <div className="md:col-span-2">
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  className="mb-2"
+                />
+                {previewImage && (
+                  <img
+                    src={previewImage}
+                    alt="Preview"
+                    className="h-32 mt-2 rounded border"
+                  />
+                )}
+              </div>
               <button
                 onClick={handleCreate}
                 className="bg-black text-white px-4 py-2 rounded mt-2 hover:bg-gray-800 md:col-span-2"

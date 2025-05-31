@@ -19,7 +19,6 @@ import {
 } from "recharts";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { fetchAdminDashboard } from "../../../api/dashboard";
 import { useTranslation } from "react-i18next";
 
@@ -84,7 +83,9 @@ const AdminDashboard = () => {
 
   return (
     <div className="space-y-10">
-      <h2 className="text-2xl font-bold text-gray-800">{t("dashboard.title")}</h2>
+      <h2 className="text-2xl font-bold text-gray-800">
+        {t("dashboard.title")}
+      </h2>
 
       {/* Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -96,7 +97,7 @@ const AdminDashboard = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className={`${card.bg} rounded-xl shadow-md p-6 flex items-center gap-4`}
+              className={`${card.bg} rounded-xl shadow-md p-6 flex items-center gap-4 min-w-0`}
             >
               <motion.div
                 animate={{ rotate: [0, 10, -10, 0] }}
@@ -104,8 +105,8 @@ const AdminDashboard = () => {
               >
                 <Icon className={`${card.iconColor} text-3xl`} />
               </motion.div>
-              <div>
-                <p className="text-gray-600 text-sm">{card.label}</p>
+              <div className="min-w-0">
+                <p className="text-gray-600 text-sm truncate">{card.label}</p>
                 <h3 className="text-2xl font-bold text-gray-900">
                   <CountUp end={card.value} duration={1.5} />
                 </h3>
@@ -116,23 +117,27 @@ const AdminDashboard = () => {
       </div>
 
       {/* Line Chart */}
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <h3 className="text-lg font-semibold mb-4">{t("dashboard.revenueChart")}</h3>
+      <div className="bg-white rounded-xl shadow-md p-6 min-w-0">
+        <h3 className="text-lg font-semibold mb-4">
+          {t("dashboard.revenueChart")}
+        </h3>
         {lineData.length > 0 ? (
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={lineData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="amount"
-                stroke="#6366f1"
-                strokeWidth={2}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <div className="w-full h-[300px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={lineData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="amount"
+                  stroke="#6366f1"
+                  strokeWidth={2}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         ) : (
           <p className="text-gray-500">{t("dashboard.noData")}</p>
         )}
@@ -140,23 +145,25 @@ const AdminDashboard = () => {
 
       {/* Quick Actions */}
       <div className="bg-white rounded-xl shadow-md p-6">
-        <h3 className="text-lg font-semibold mb-4">{t("dashboard.quickActions")}</h3>
+        <h3 className="text-lg font-semibold mb-4">
+          {t("dashboard.quickActions")}
+        </h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
           <button
             onClick={() => navigate("/dashboard/admin/users")}
-            className="bg-indigo-50 text-indigo-700 p-3 rounded flex items-center gap-2 hover:bg-indigo-100 transition"
+            className="bg-indigo-50 text-indigo-700 p-3 rounded flex items-center justify-center gap-2 hover:bg-indigo-100 transition"
           >
             <FaPlusCircle /> {t("dashboard.addUser")}
           </button>
           <button
             onClick={() => navigate("/dashboard/admin/reports")}
-            className="bg-green-50 text-green-700 p-3 rounded flex items-center gap-2 hover:bg-green-100 transition"
+            className="bg-green-50 text-green-700 p-3 rounded flex items-center justify-center gap-2 hover:bg-green-100 transition"
           >
             <FaFileAlt /> {t("dashboard.viewReports")}
           </button>
           <button
             onClick={() => navigate("/dashboard/admin/orders")}
-            className="bg-yellow-50 text-yellow-700 p-3 rounded flex items-center gap-2 hover:bg-yellow-100 transition"
+            className="bg-yellow-50 text-yellow-700 p-3 rounded flex items-center justify-center gap-2 hover:bg-yellow-100 transition"
           >
             <FaClipboardList /> {t("dashboard.viewOrders")}
           </button>

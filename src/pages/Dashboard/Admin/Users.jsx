@@ -65,7 +65,6 @@ const Users = () => {
       setUsers((prev) => prev.map((u) => (u._id === user._id ? result.user : u)));
       toast.success(t("users.balanceAdjusted"));
     } catch (err) {
-      console.error(err);
       toast.error(t("users.adjustFailed"));
     }
   };
@@ -82,8 +81,7 @@ const Users = () => {
         toast.success(t("users.created"));
       }
       closeModals();
-    } catch (error) {
-      console.log(error);
+    } catch {
       toast.error(t("users.saveError"));
     }
   };
@@ -108,8 +106,7 @@ const Users = () => {
       const result = await updatestatus(id, { status: newStatus });
       setUsers((prev) => prev.map((u) => (u._id === id ? result.user : u)));
       toast.success(t("users.statusUpdated"));
-    } catch (err) {
-      console.error(err);
+    } catch {
       toast.error(t("users.statusError"));
     }
   };
@@ -130,7 +127,7 @@ const Users = () => {
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">{t("users.title")}</h2>
         <button
-          className="bg-indigo-600 text-white px-4 py-2 rounded flex items-center gap-2"
+          className="bg-indigo-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-indigo-700"
           onClick={() => openModal()}
         >
           <FaPlus />
@@ -163,10 +160,10 @@ const Users = () => {
           user.storeLevel || "-",
           `${user.feeRatio ?? 0}%`,
           `$${user.balance?.toFixed(2) || 0}`,
-          <div className="text-xs max-w-[180px] overflow-x-auto">
+          <div className="text-xs max-w-[180px] overflow-x-auto whitespace-nowrap">
             {(user.rechargeHistory || []).slice(0, 2).map((rec, i) => (
               <div key={i}>
-                <div>💰 {rec.amount} - {new Date(rec.date).toLocaleDateString()}</div>
+                💰 {rec.amount} - {new Date(rec.date).toLocaleDateString()}
               </div>
             ))}
             {user.rechargeHistory?.length > 2 && (
@@ -174,17 +171,33 @@ const Users = () => {
             )}
           </div>,
           new Date(user.createdAt).toLocaleDateString(),
-          <div className="flex gap-3 text-sm">
-            <button onClick={() => openModal(user)} title={t("users.edit")} className="text-blue-600 hover:underline">
+          <div className="flex flex-wrap gap-2 text-sm">
+            <button
+              onClick={() => openModal(user)}
+              title={t("users.edit")}
+              className="text-blue-600 hover:underline"
+            >
               <FaEdit />
             </button>
-            <button onClick={() => promptBalanceAdjust(user)} title={t("users.adjust")} className="text-green-600 hover:underline">
+            <button
+              onClick={() => promptBalanceAdjust(user)}
+              title={t("users.adjust")}
+              className="text-green-600 hover:underline"
+            >
               💰
             </button>
-            <button onClick={() => toggleStatus(user._id)} title={t("users.toggle")} className="text-yellow-600 hover:underline">
+            <button
+              onClick={() => toggleStatus(user._id)}
+              title={t("users.toggle")}
+              className="text-yellow-600 hover:underline"
+            >
               {user.status === "active" ? <FaToggleOff /> : <FaToggleOn />}
             </button>
-            <button onClick={() => deleteUser(user._id)} title={t("users.delete")} className="text-red-600 hover:underline">
+            <button
+              onClick={() => deleteUser(user._id)}
+              title={t("users.delete")}
+              className="text-red-600 hover:underline"
+            >
               <FaTrash />
             </button>
           </div>,

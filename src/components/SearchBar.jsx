@@ -4,7 +4,8 @@ import { useState, useMemo, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useCart } from "../context/CartContext";
-import { API_URL } from "../api/recruiter";
+
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 const FloatingInput = ({ label, value, onChange, type = "text" }) => (
   <div className="relative">

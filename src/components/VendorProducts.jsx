@@ -3,6 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { API_URL } from "../api/recruiter";
 
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 const VendorProducts = () => {
   const [selectable, setSelectable] = useState([]);
   const [mine, setMine] = useState([]);

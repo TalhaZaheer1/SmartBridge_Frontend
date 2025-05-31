@@ -1,0 +1,361 @@
+{
+  "home": "Home",
+  "shop": "Shop",
+  "categories": "Categories",
+  "deals": "Deals",
+  "contact": "Contact",
+  "signIn": "Sign In",
+  "signUp": "Sign Up",
+  "logout": "Logout",
+  "orders": "Orders",
+  "wishlist": "Wishlist",
+  "payment": "Payment",
+  "storeProducts": "Store Products",
+  "myAccount": "My Account",
+  "yourCart": "Your Cart",
+  "cartEmpty": "Your cart is empty.",
+  "total": "Total",
+  "placeOrder": "Place Order",
+  "balance": "Balance",
+   "hero": {
+    "slides": [
+      {
+        "title": "Trendy Summer Collection",
+        "subtitle": "Explore the latest arrivals in fashion"
+      },
+      {
+        "title": "Handpicked Accessories",
+        "subtitle": "Style up with our curated designs"
+      },
+      {
+        "title": "Exclusive Deals",
+        "subtitle": "Limited-time offers on bestsellers"
+      }
+    ],
+    "button": "Shop Now"
+  },
+   "search": {
+    "title": "Shop Your Style",
+    "subtitle": "Filter by category, brand, size or color",
+    "category": "Category",
+    "brand": "Brand",
+    "size": "Size",
+    "color": "Color",
+    "filterLive": "Filter Live",
+    "quickView": "Quick View",
+    "addToCart": "Add to Cart",
+    "noProducts": "No products found."
+  },
+   "footer": {
+    "shop": "Shop",
+    "customerService": "Customer Service",
+    "company": "Company",
+    "stayConnected": "Stay Connected",
+    "newsletterText": "Join our newsletter to get updates on offers & new products.",
+    "emailPlaceholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "bottom": "All rights reserved.",
+    "links": {
+      "men": "Men",
+      "women": "Women",
+      "kids": "Kids",
+      "newArrivals": "New Arrivals",
+      "bestSellers": "Best Sellers",
+      "helpCenter": "Help Center",
+      "shipping": "Shipping",
+      "returns": "Returns",
+      "trackOrder": "Track Order",
+      "sizeGuide": "Size Guide",
+      "about": "About Us",
+      "careers": "Careers",
+      "press": "Press",
+      "affiliate": "Affiliate Program",
+      "contact": "Contact"
+    }
+  },
+  "account": {
+    "title": "My Account",
+    "loading": "Loading...",
+    "profile": {
+      "title": "Profile Information",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "storeLevel": "Store Level",
+      "balance": "Balance",
+      "feeRatio": "Fee Ratio"
+    },
+    "dashboard": {
+      "title": "Dashboard Summary",
+      "orders": "Total Orders",
+      "spent": "Total Spent",
+      "activeOrders": "Active Orders"
+    },
+    "recharges": {
+      "title": "Recharge History",
+      "empty": "No recharge history found.",
+      "amount": "Amount",
+      "note": "Note",
+      "date": "Date",
+      "approvedBy": "Approved By",
+      "pending": "Pending"
+    }
+  },
+   "payment": {
+    "title": "Recharge Your Balance",
+    "wechat": {
+      "title": "WeChat Payment",
+      "id": "WeChat ID"
+    },
+    "usdt": {
+      "title": "USDT (TRC20) Payment",
+      "address": "Wallet Address"
+    },
+    "descriptions": {
+      "howItWorks": "How the payment process works",
+      "features": "Store-level features or benefits"
+    },
+    "loading": "Loading payment settings...",
+    "copySuccess": "Copied to clipboard!",
+    "loadFail": "Failed to load payment settings."
+  },
+  "register": {
+    "title": "Create Your Account",
+    "subtitle": "Start your shopping journey with us.",
+    "store": "vendor",
+    "candidate": "candidate",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "password": "Password",
+    "show": "Show",
+    "hide": "Hide",
+    "signUp": "Sign Up",
+    "creating": "Creating account...",
+    "agreeText": "By signing up, you agree to our",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "haveAccount": "Already have an account?",
+    "login": "Login",
+    "error": {
+      "fillFields": "Please fill in all fields.",
+      "invalidEmail": "Enter a valid email address.",
+      "success": "Registered successfully! Please verify your email.",
+      "fail": "Registration failed."
+    }
+  },
+  "login": {
+  "title": "Welcome Back",
+  "subtitle": "Login to continue shopping.",
+  "google": "Sign in with Google",
+  "github": "Sign in with GitHub",
+  "phone": "Phone number",
+  "password": "Password",
+  "show": "Show",
+  "hide": "Hide",
+  "signingIn": "Signing in...",
+  "signIn": "Sign In",
+  "noAccount": "Don’t have an account?",
+  "signup": "Sign up",
+  "error": {
+    "empty": "Please enter both phone and password.",
+    "success": "Login successful.",
+    "fail": "Login failed. Please try again."
+  }
+},
+"permissions": {
+  "manage": "Manage Access for {{name}}",
+  "submissions": "Submissions",
+  "pto": "PTO Requests",
+  "salaries": "Salaries",
+  "reports": "Reports",
+  "cancel": "Cancel",
+  "save": "Save Changes"
+},
+"sidebar": {
+  "title": "Dashboard",
+  "dashboard": "Dashboard",
+  "users": "Users",
+  "products": "Products",
+  "orders": "Orders",
+  "payment": "Payment",
+  "logout": "Logout"
+},
+"sidebarHeader": {
+  "account": "Account",
+  "logout": "Logout"
+},
+"table": {
+  "searchPlaceholder": "Search...",
+  "noData": "No data found.",
+  "prev": "Prev",
+  "next": "Next"
+},
+"userModal": {
+  "addUser": "Add New User",
+  "editUser": "Edit User",
+  "fullName": "Full Name",
+  "email": "Email",
+  "phone": "Phone",
+  "password": "Password",
+  "store": "Store",
+  "customer": "Customer",
+  "storeLevel": "Store Level (e.g. Gold)",
+  "feeRatio": "Fee Ratio (e.g. 0.1)",
+  "cancel": "Cancel",
+  "saveUser": "Save User",
+  "fillAllFields": "Please fill all required fields."
+},
+"vendor": {
+  "selectProducts": "Select Products",
+  "filterByCategory": "Filter by category...",
+  "search": "Search",
+  "adoptProduct": "Adopt Product",
+  "myProducts": "My Adopted Products",
+  "toast": {
+    "loadSelectableFail": "Failed to load selectable products",
+    "loadMineFail": "Failed to load your products",
+    "adoptSuccess": "Product adopted successfully",
+    "adoptFail": "Failed to adopt product"
+  }
+},
+"otp": {
+  "title": "Email Verification",
+  "description": "Enter the 6-digit OTP sent to",
+  "placeholder": "Enter OTP",
+  "button": "Verify OTP",
+  "note": "Didn't receive the code? Check your spam folder or wait a few minutes.",
+  "enterOtpError": "Please enter the OTP.",
+  "invalidOtp": "Invalid OTP. Try again."
+},
+"dashboard": {
+  "title": "Admin Dashboard",
+  "totalUsers": "Total Users",
+  "totalOrders": "Total Orders",
+  "totalRevenue": "Total Revenue",
+  "revenueChart": "Revenue Over Time",
+  "noData": "No recent order data available.",
+  "quickActions": "Quick Actions",
+  "addUser": "Add New User",
+  "viewReports": "View Reports",
+  "viewOrders": "View All Orders",
+  "error": "Failed to load dashboard data"
+},
+"orders": {
+  "title": "Order Management",
+  "exportCSV": "Export CSV",
+  "exportPDF": "Export PDF",
+  "loadError": "Failed to load orders",
+  "exportCSVError": "CSV export failed",
+  "exportPDFError": "PDF export failed",
+  "statusUpdated": "Order status updated",
+  "statusUpdateError": "Failed to update status",
+  "product": "Product",
+  "category": "Category",
+  "buyer": "Buyer",
+  "vendor": "Vendor",
+  "price": "Price",
+  "fee": "Fee",
+  "total": "Total",
+  "status": "Status",
+  "date": "Date",
+  "placed": "Placed",
+  "cancelled": "Cancelled",
+  "delivered": "Delivered"
+},
+"payment1": {
+  "title": "Admin – Payment Page Configuration",
+  "wechatId": "WeChat ID",
+  "wechatQr": "WeChat QR Code",
+  "usdtAddress": "USDT Wallet Address (TRC20)",
+  "usdtQr": "USDT Wallet QR Code",
+  "description1": "Description 1: How Payment Works",
+  "description2": "Description 2: Store-Level Benefits",
+  "updateBtn": "Update Config",
+  "updating": "Updating...",
+  "success": "Payment config updated successfully",
+  "error": "Update failed",
+  "loadError": "Failed to load payment config"
+},
+"product": {
+  "title": "Product Management",
+  "addProduct": "Add Product",
+  "image": "Image",
+  "productTitle": "Title",
+  "price": "Price",
+  "category": "Category",
+  "storeLevels": "Store Levels",
+  "description": "Description",
+  "submit": "Submit",
+  "actions": "Actions",
+  "delete": "Delete",
+  "storeLevelsPlaceholder": "Store Levels (comma-separated)",
+  "fetchError": "Failed to load products",
+  "createError": "Failed to create product",
+  "created": "Product created",
+  "deleteError": "Failed to delete product",
+  "deleted": "Product deleted",
+  "confirmDelete": "Are you sure you want to delete this product?"
+},
+"users": {
+  "title": "User Management",
+  "add": "Add User",
+  "name": "Name",
+  "email": "Email",
+  "phone": "Phone",
+  "role": "Role",
+  "status": "Status",
+  "verified": "Verified",
+  "storeLevel": "Store Level",
+  "feeRatio": "Fee Ratio",
+  "balance": "Balance",
+  "rechargeLogs": "Recharge Logs",
+  "createdAt": "Created At",
+  "actions": "Actions",
+  "edit": "Edit",
+  "delete": "Delete",
+  "toggle": "Toggle Status",
+  "adjust": "Adjust Balance",
+  "confirmDelete": "Are you sure you want to delete this user?",
+  "created": "User created",
+  "updated": "User updated",
+  "deleted": "User deleted",
+  "saveError": "Failed to save user",
+  "deleteError": "Failed to delete user",
+  "fetchError": "Failed to fetch users",
+  "permissionsUpdated": "Permissions updated",
+  "permissionError": "Failed to update permissions",
+  "statusUpdated": "Status updated",
+  "statusError": "Failed to toggle status",
+  "balanceAdjusted": "Balance adjusted",
+  "adjustFailed": "Failed to adjust balance",
+  "promptAmount": "Enter amount to adjust for {{name}} (use negative for deduction):",
+  "promptNote": "Enter a note for this adjustment:",
+  "invalidAmount": "Invalid amount"
+},
+"categories1": {
+  "title": "Shop by Category",
+  "unknown": "Uncategorized"
+},
+"contact1": {
+  "title": "Contact Us",
+  "name": "Your Name",
+  "email": "Your Email",
+  "message": "Your Message",
+  "submit": "Send Message",
+  "error": "Please fill out all fields.",
+  "success": "Message sent successfully!"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+}

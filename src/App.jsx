@@ -13,7 +13,9 @@ import VerifyOtp from "./components/VerifyOtp";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Account from "./pages/Account";
 import VendorProducts from "./components/VendorProducts";
-
+import Store from "./components/Store";
+import Categories from "./components/Categories";
+import Contact from "./components/Contact";
 function App() {
   return (
     <BrowserRouter>
@@ -49,6 +51,9 @@ function AppContent() {
         <Route path="/register" element={<Register />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/shop" element={<Store />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/store/products" element={<VendorProducts />} />
 
         <Route path="/payment" element={<PaymentPage />} />

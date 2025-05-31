@@ -1,33 +1,19 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const carouselImages = [
-  {
-    src: 'https://images.pexels.com/photos/7156885/pexels-photo-7156885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    title: 'Trendy Summer Collection',
-    subtitle: 'Explore the latest arrivals in fashion',
-  },
-  {
-    src: 'https://images.pexels.com/photos/7679874/pexels-photo-7679874.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    title: 'Handpicked Accessories',
-    subtitle: 'Style up with our curated designs',
-  },
-  {
-    src: 'https://images.pexels.com/photos/6995885/pexels-photo-6995885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    title: 'Exclusive Deals',
-    subtitle: 'Limited-time offers on bestsellers',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 export const Hero = () => {
   const [index, setIndex] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % carouselImages.length);
+      setIndex((prev) => (prev + 1) % 3);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+
+  const slide = t(`hero.slides.${index}`, { returnObjects: true });
 
   return (
     <div className="relative h-[100vh] overflow-hidden">
@@ -41,7 +27,11 @@ export const Hero = () => {
           className="absolute inset-0 w-full h-full"
         >
           <img
-            src={carouselImages[index].src}
+            src={[
+              'https://images.pexels.com/photos/7156885/pexels-photo-7156885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+              'https://images.pexels.com/photos/7679874/pexels-photo-7679874.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+              'https://images.pexels.com/photos/6995885/pexels-photo-6995885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+            ][index]}
             alt={`Slide ${index + 1}`}
             className="w-full h-full object-cover"
           />
@@ -53,7 +43,7 @@ export const Hero = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
-              {carouselImages[index].title}
+              {slide.title}
             </motion.h2>
             <motion.p
               className="text-lg md:text-xl mb-6"
@@ -61,7 +51,7 @@ export const Hero = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.5 }}
             >
-              {carouselImages[index].subtitle}
+              {slide.subtitle}
             </motion.p>
             <motion.a
               href="#shop-now"
@@ -70,7 +60,7 @@ export const Hero = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.7 }}
             >
-              Shop Now
+              {t('hero.button')}
             </motion.a>
           </div>
         </motion.div>

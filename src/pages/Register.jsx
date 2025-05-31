@@ -2,8 +2,10 @@ import { useState } from "react";
 import { register } from "../api/auth";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -21,35 +23,28 @@ const Register = () => {
   const isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  console.log("Form submitted:", form); // ✅ Log form data
+    if (!form.name || !form.email || !form.password || !form.phone) {
+      toast.error(t("register.error.fillFields"));
+      return;
+    }
+    if (!isValidEmail(form.email)) {
+      toast.error(t("register.error.invalidEmail"));
+      return;
+    }
 
-  if (!form.name || !form.email || !form.password || !form.phone) {
-    toast.error("Please fill in all fields.");
-    return;
-  }
-  if (!isValidEmail(form.email)) {
-    toast.error("Enter a valid email address.");
-    return;
-  }
-
-  setLoading(true);
-  try {
-    await register(form);
-    toast.success("Registered successfully! Please verify your email.");
-    navigate("/verify-otp", { state: { email: form.email } });
-  } catch (err) {
-    console.error("Registration error:", err); // ✅ Log backend error
-    toast.error(err.response?.data?.message || "Registration failed.");
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-  const handleOAuth = (provider) => {
-    window.location.href = `http://localhost:5000/api/auth/${provider}`;
+    setLoading(true);
+    try {
+      await register(form);
+      toast.success(t("register.error.success"));
+      navigate("/verify-otp", { state: { email: form.email } });
+    } catch (err) {
+      console.error("Registration error:", err);
+      toast.error(err.response?.data?.message || t("register.error.fail"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -57,45 +52,17 @@ const Register = () => {
       <div className="w-full max-w-4xl bg-white shadow-md border rounded-lg overflow-hidden flex flex-col md:flex-row">
         {/* Left Illustration */}
         <div className="hidden md:flex items-center justify-center bg-gray-100 w-full md:w-1/2 p-10">
-          <img
-            src="/store-register.svg"
-            alt="Register"
-            className="max-w-xs"
-          />
+          <img src="/store-register.svg" alt="Register" className="max-w-xs" />
         </div>
 
         {/* Right Form */}
         <div className="w-full md:w-1/2 p-8 sm:p-12">
           <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center">
-            Create Your Account
+            {t("register.title")}
           </h2>
           <p className="text-sm text-gray-500 mb-6 text-center">
-            Start your shopping journey with us.
+            {t("register.subtitle")}
           </p>
-
-          {/* OAuth */}
-          {/* <div className="flex flex-col gap-3 mb-6">
-            <button
-              onClick={() => handleOAuth("google")}
-              className="flex items-center justify-center border rounded py-2 bg-white hover:bg-gray-50 text-sm"
-            >
-              <img
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                className="w-5 h-5 mr-2"
-              />
-              Sign up with Google
-            </button>
-            <button
-              onClick={() => handleOAuth("github")}
-              className="flex items-center justify-center border rounded py-2 bg-white hover:bg-gray-50 text-sm"
-            >
-              <img
-                src="https://www.svgrepo.com/show/349375/github.svg"
-                className="w-5 h-5 mr-2"
-              />
-              Sign up with GitHub
-            </button>
-          </div> */}
 
           {/* Role Selection */}
           <div className="flex gap-2 justify-center mb-4">
@@ -111,7 +78,7 @@ const Register = () => {
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
               >
-                {role === "store" ? "vendor" : "candidate"}
+                {t(`register.${role}`)}
               </button>
             ))}
           </div>
@@ -122,7 +89,7 @@ const Register = () => {
               name="name"
               value={form.name}
               onChange={handleChange}
-              placeholder="Full Name"
+              placeholder={t("register.fullName")}
               className="w-full px-4 py-3 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-black focus:outline-none"
               required
             />
@@ -131,7 +98,7 @@ const Register = () => {
               type="email"
               value={form.email}
               onChange={handleChange}
-              placeholder="Email"
+              placeholder={t("register.email")}
               className="w-full px-4 py-3 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-black focus:outline-none"
               required
             />
@@ -140,7 +107,7 @@ const Register = () => {
               type="tel"
               value={form.phone}
               onChange={handleChange}
-              placeholder="Phone Number"
+              placeholder={t("register.phone")}
               className="w-full px-4 py-3 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-black focus:outline-none"
               required
             />
@@ -150,7 +117,7 @@ const Register = () => {
                 type={showPassword ? "text" : "password"}
                 value={form.password}
                 onChange={handleChange}
-                placeholder="Password"
+                placeholder={t("register.password")}
                 className="w-full px-4 py-3 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-black focus:outline-none"
                 required
               />
@@ -159,7 +126,7 @@ const Register = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-3 text-xs text-gray-600"
               >
-                {showPassword ? "Hide" : "Show"}
+                {showPassword ? t("register.hide") : t("register.show")}
               </button>
             </div>
             <button
@@ -167,23 +134,18 @@ const Register = () => {
               disabled={loading}
               className="w-full py-3 bg-black text-white text-sm font-semibold rounded hover:bg-gray-900 transition"
             >
-              {loading ? "Creating account..." : "Sign Up"}
+              {loading ? t("register.creating") : t("register.signUp")}
             </button>
             <p className="text-xs text-center text-gray-500 mt-4">
-              By signing up, you agree to our{" "}
-              <a href="#" className="underline">
-                Terms of Service
-              </a>{" "}
-              and{" "}
-              <a href="#" className="underline">
-                Privacy Policy
-              </a>
-              .
+              {t("register.agreeText")}{" "}
+              <a href="#" className="underline">{t("register.terms")}</a>{" "}
+              {t("register.and")}{" "}
+              <a href="#" className="underline">{t("register.privacy")}</a>。
             </p>
             <p className="text-sm text-center mt-3">
-              Already have an account?{" "}
+              {t("register.haveAccount")}{" "}
               <a href="/login" className="text-black font-medium">
-                Login
+                {t("register.login")}
               </a>
             </p>
           </form>

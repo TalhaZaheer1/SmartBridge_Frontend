@@ -4,10 +4,13 @@ import toast from "react-hot-toast";
 import { FaPlus, FaTrash, FaTimes } from "react-icons/fa";
 import Table from "../../../components/Table";
 import { API_URL } from "../../../api/recruiter";
+import { useTranslation } from "react-i18next";
 
-export const API_IMAGE_URL= import.meta.env.VITE_API_IMAGE_URL || "http://localhost:5000";
+export const API_IMAGE_URL = import.meta.env.VITE_API_IMAGE_URL || "http://localhost:5000";
 
 const AdminProducts = () => {
+  const { t } = useTranslation();
+
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [newProduct, setNewProduct] = useState({
@@ -25,15 +28,13 @@ const AdminProducts = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
-      // Ensure it's an array before setting
       const data = Array.isArray(res.data) ? res.data : [];
       setProducts(data);
     } catch (err) {
       console.error("Fetch error:", err);
-      toast.error("Failed to load products");
+      toast.error(t("product.fetchError"));
     }
   };
-
 
   useEffect(() => {
     fetchProducts();
@@ -57,7 +58,7 @@ const AdminProducts = () => {
         },
       });
 
-      toast.success("Product created");
+      toast.success(t("product.created"));
       setNewProduct({
         title: "",
         description: "",
@@ -69,41 +70,51 @@ const AdminProducts = () => {
       setShowModal(false);
       fetchProducts();
     } catch (err) {
-      toast.error("Failed to create product");
+      toast.error(t("product.createError"));
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this product?")) return;
+    if (!window.confirm(t("product.confirmDelete"))) return;
     try {
       await axios.delete(`${API_URL}/products/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      toast.success("Product deleted");
+      toast.success(t("product.deleted"));
       fetchProducts();
     } catch (err) {
-      console.log(err)
-      toast.error("Failed to delete product");
+      toast.error(t("product.deleteError"));
     }
   };
 
   return (
     <div className="text-white min-h-screen p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">Product Management</h2>
+        <h2 className="text-2xl font-semibold">{t("product.title")}</h2>
         <button
           onClick={() => setShowModal(true)}
           className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200"
         >
           <FaPlus className="inline mr-2" />
-          Add Product
+          {t("product.addProduct")}
         </button>
       </div>
 
       <Table
-        headers={["Image", "Title", "Price", "Category", "Store Levels", "Actions"]}
+        headers={[
+          t("product.image"),
+          t("product.productTitle"),
+          t("product.price"),
+          t("product.category"),
+          t("product.storeLevels"),
+          t("product.actions"),
+        ]}
         rows={products.map((p) => [
-          <img src={`${API_IMAGE_URL}${p.image}`} alt={p.title} className="w-14 h-14 object-cover rounded" />,
+          <img
+            src={`${API_IMAGE_URL}${p.image}`}
+            alt={p.title}
+            className="w-14 h-14 object-cover rounded"
+          />,
           p.title,
           `$${p.price}`,
           p.category,
@@ -112,7 +123,7 @@ const AdminProducts = () => {
             <button
               onClick={() => handleDelete(p._id)}
               className="text-red-500 hover:underline"
-              title="Delete"
+              title={t("product.delete")}
             >
               <FaTrash />
             </button>
@@ -130,53 +141,49 @@ const AdminProducts = () => {
             >
               <FaTimes />
             </button>
-            <h3 className="text-lg font-semibold mb-4">Add New Product</h3>
+            <h3 className="text-lg font-semibold mb-4">{t("product.addProduct")}</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 type="text"
-                placeholder="Title"
+                placeholder={t("product.productTitle")}
                 value={newProduct.title}
                 onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
                 className="border px-3 py-2 rounded"
               />
               <input
                 type="text"
-                placeholder="Category"
+                placeholder={t("product.category")}
                 value={newProduct.category}
                 onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
                 className="border px-3 py-2 rounded"
               />
               <input
                 type="number"
-                placeholder="Price"
+                placeholder={t("product.price")}
                 value={newProduct.price}
                 onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
                 className="border px-3 py-2 rounded"
               />
               <input
                 type="text"
-                placeholder="Store Levels (comma-separated)"
+                placeholder={t("product.storeLevelsPlaceholder")}
                 value={newProduct.storeLevels}
                 onChange={(e) => setNewProduct({ ...newProduct, storeLevels: e.target.value })}
                 className="border px-3 py-2 rounded"
               />
               <textarea
-                placeholder="Description"
+                placeholder={t("product.description")}
                 value={newProduct.description}
                 onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
                 className="border px-3 py-2 rounded md:col-span-2"
               />
-              <input
-                type="file"
-                onChange={handleFileChange}
-                className="md:col-span-2"
-              />
+              <input type="file" onChange={handleFileChange} className="md:col-span-2" />
               <button
                 onClick={handleCreate}
                 className="bg-black text-white px-4 py-2 rounded mt-2 hover:bg-gray-800 md:col-span-2"
               >
-                Submit
+                {t("product.submit")}
               </button>
             </div>
           </div>

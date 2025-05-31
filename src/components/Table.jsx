@@ -1,8 +1,10 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const Table = ({ headers = [], rows = [] }) => {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const [sortConfig, setSortConfig] = useState({ column: null, direction: "asc" });
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,16 +18,15 @@ const Table = ({ headers = [], rows = [] }) => {
     setSortConfig({ column: columnIndex, direction });
   };
 
- const filteredRows = useMemo(() => {
-  return rows.filter((row) =>
-    row.some((cell) =>
-      (typeof cell === "string" || typeof cell === "number"
-        ? cell.toString().toLowerCase().includes(search.toLowerCase())
-        : false)
-    )
-  );
-}, [rows, search]);
-
+  const filteredRows = useMemo(() => {
+    return rows.filter((row) =>
+      row.some((cell) =>
+        typeof cell === "string" || typeof cell === "number"
+          ? cell.toString().toLowerCase().includes(search.toLowerCase())
+          : false
+      )
+    );
+  }, [rows, search]);
 
   const sortedRows = useMemo(() => {
     if (sortConfig.column === null) return filteredRows;
@@ -50,7 +51,7 @@ const Table = ({ headers = [], rows = [] }) => {
       {/* Search Bar */}
       <input
         type="text"
-        placeholder="Search..."
+        placeholder={t("table.searchPlaceholder")}
         className="border p-2 rounded w-full"
         value={search}
         onChange={(e) => {
@@ -101,7 +102,7 @@ const Table = ({ headers = [], rows = [] }) => {
             ) : (
               <tr>
                 <td colSpan={headers.length} className="px-5 py-4 text-center text-gray-400">
-                  No data found.
+                  {t("table.noData")}
                 </td>
               </tr>
             )}
@@ -117,7 +118,7 @@ const Table = ({ headers = [], rows = [] }) => {
             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             className="px-3 py-1 border rounded disabled:opacity-50"
           >
-            Prev
+            {t("table.prev")}
           </button>
           {[...Array(totalPages)].map((_, i) => (
             <button
@@ -135,7 +136,7 @@ const Table = ({ headers = [], rows = [] }) => {
             onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
             className="px-3 py-1 border rounded disabled:opacity-50"
           >
-            Next
+            {t("table.next")}
           </button>
         </div>
       )}

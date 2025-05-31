@@ -1,60 +1,63 @@
 import { FaFacebookF, FaInstagram, FaTwitter, FaPinterest, FaTiktok } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-gray-100 text-gray-700">
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {/* Shop */}
         <div>
-          <h4 className="text-lg font-semibold mb-4">Shop</h4>
+          <h4 className="text-lg font-semibold mb-4">{t('footer.shop')}</h4>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-indigo-600 transition">Men</a></li>
-            <li><a href="#" className="hover:text-indigo-600 transition">Women</a></li>
-            <li><a href="#" className="hover:text-indigo-600 transition">Kids</a></li>
-            <li><a href="#" className="hover:text-indigo-600 transition">New Arrivals</a></li>
-            <li><a href="#" className="hover:text-indigo-600 transition">Best Sellers</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.men')}</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.women')}</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.kids')}</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.newArrivals')}</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.bestSellers')}</a></li>
           </ul>
         </div>
 
         {/* Customer Service */}
         <div>
-          <h4 className="text-lg font-semibold mb-4">Customer Service</h4>
+          <h4 className="text-lg font-semibold mb-4">{t('footer.customerService')}</h4>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-indigo-600 transition">Help Center</a></li>
-            <li><a href="#" className="hover:text-indigo-600 transition">Shipping</a></li>
-            <li><a href="#" className="hover:text-indigo-600 transition">Returns</a></li>
-            <li><a href="#" className="hover:text-indigo-600 transition">Track Order</a></li>
-            <li><a href="#" className="hover:text-indigo-600 transition">Size Guide</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.helpCenter')}</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.shipping')}</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.returns')}</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.trackOrder')}</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.sizeGuide')}</a></li>
           </ul>
         </div>
 
         {/* Company Info */}
         <div>
-          <h4 className="text-lg font-semibold mb-4">Company</h4>
+          <h4 className="text-lg font-semibold mb-4">{t('footer.company')}</h4>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-indigo-600 transition">About Us</a></li>
-            <li><a href="#" className="hover:text-indigo-600 transition">Careers</a></li>
-            <li><a href="#" className="hover:text-indigo-600 transition">Press</a></li>
-            <li><a href="#" className="hover:text-indigo-600 transition">Affiliate Program</a></li>
-            <li><a href="#" className="hover:text-indigo-600 transition">Contact</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.about')}</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.careers')}</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.press')}</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.affiliate')}</a></li>
+            <li><a href="#" className="hover:text-indigo-600 transition">{t('footer.links.contact')}</a></li>
           </ul>
         </div>
 
         {/* Newsletter & Social */}
         <div>
-          <h4 className="text-lg font-semibold mb-4">Stay Connected</h4>
-          <p className="text-sm mb-4">Join our newsletter to get updates on offers & new products.</p>
+          <h4 className="text-lg font-semibold mb-4">{t('footer.stayConnected')}</h4>
+          <p className="text-sm mb-4">{t('footer.newsletterText')}</p>
           <form className="flex items-center space-x-2 mb-4">
             <input
               type="email"
-              placeholder="Enter your email"
+              placeholder={t('footer.emailPlaceholder')}
               className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
             />
             <button
               type="submit"
               className="bg-black text-white px-4 py-2 text-sm rounded-md hover:bg-indigo-700 transition"
             >
-              Subscribe
+              {t('footer.subscribe')}
             </button>
           </form>
           <div className="flex gap-4 mt-2">
@@ -69,7 +72,7 @@ const Footer = () => {
 
       {/* Footer Bottom */}
       <div className="border-t py-4 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} LogicNosh. All rights reserved.
+        © {new Date().getFullYear()} LogicNosh. {t('footer.bottom')}
       </div>
     </footer>
   );

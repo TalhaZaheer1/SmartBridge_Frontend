@@ -5,21 +5,23 @@ import {
   FaUserClock, FaSignOutAlt
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const Sidebar = () => {
   const { isOpen, toggleSidebar } = useSidebar();
   const { role } = useParams(); // should be "admin"
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const basePath = `/dashboard/${role}`;
 
   const adminLinks = [
-    { name: "Dashboard", path: "", icon: <FaChartBar /> },
-    { name: "Users", path: "users", icon: <FaUsers /> },
-    { name: "Products", path: "products", icon: <FaClipboardList /> },
-    { name: "Orders", path: "orders", icon: <FaClipboardList /> },
-    { name: "Payment", path: "payment", icon: <FaUserClock /> },
+    { name: "dashboard", path: "", icon: <FaChartBar /> },
+    { name: "users", path: "users", icon: <FaUsers /> },
+    { name: "products", path: "products", icon: <FaClipboardList /> },
+    { name: "orders", path: "orders", icon: <FaClipboardList /> },
+    { name: "payment", path: "payment", icon: <FaUserClock /> },
   ];
 
   const isActive = (path) =>
@@ -49,7 +51,7 @@ const Sidebar = () => {
                 exit={{ opacity: 0, x: -10 }}
                 className="text-xl font-bold text-black"
               >
-                Dashboard
+                {t("sidebar.title")}
               </motion.h1>
             )}
           </AnimatePresence>
@@ -77,7 +79,7 @@ const Sidebar = () => {
                   transition hover:bg-gray-100 hover:text-black
                   ${isActive(link.path) ? "bg-gray-200 text-black font-semibold" : "text-gray-700"}
                 `}
-                title={!isOpen ? link.name : ""}
+                title={!isOpen ? t(`sidebar.${link.name}`) : ""}
               >
                 <span className="text-lg">{link.icon}</span>
                 <AnimatePresence>
@@ -88,7 +90,7 @@ const Sidebar = () => {
                       exit={{ opacity: 0 }}
                       className="whitespace-nowrap"
                     >
-                      {link.name}
+                      {t(`sidebar.${link.name}`)}
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -113,7 +115,7 @@ const Sidebar = () => {
               exit={{ opacity: 0 }}
               className="text-sm font-medium"
             >
-              Logout
+              {t("sidebar.logout")}
             </motion.span>
           )}
         </motion.button>

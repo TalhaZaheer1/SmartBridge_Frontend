@@ -4,8 +4,10 @@ import toast from "react-hot-toast";
 import { FaDownload } from "react-icons/fa";
 import Table from "../../../components/Table";
 import { API_URL } from "../../../api/recruiter";
+import { useTranslation } from "react-i18next";
 
 const AdminOrders = () => {
+  const { t } = useTranslation();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -15,12 +17,11 @@ const AdminOrders = () => {
       const res = await axios.get(`${API_URL}/orders/admin/all`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-
       const data = Array.isArray(res.data.orders) ? res.data.orders : [];
       setOrders(data);
     } catch (err) {
       console.error("Fetch error:", err);
-      toast.error("Failed to load orders");
+      toast.error(t("orders.loadError"));
     } finally {
       setLoading(false);
     }
@@ -39,7 +40,7 @@ const AdminOrders = () => {
       document.body.appendChild(link);
       link.click();
     } catch (err) {
-      toast.error("CSV export failed");
+      toast.error(t("orders.exportCSVError"));
     }
   };
 
@@ -56,7 +57,7 @@ const AdminOrders = () => {
       document.body.appendChild(link);
       link.click();
     } catch (err) {
-      toast.error("PDF export failed");
+      toast.error(t("orders.exportPDFError"));
     }
   };
 
@@ -67,12 +68,12 @@ const AdminOrders = () => {
         { status },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        },
+        }
       );
-      toast.success("Order status updated");
+      toast.success(t("orders.statusUpdated"));
       fetchOrders();
     } catch (err) {
-      toast.error("Failed to update status");
+      toast.error(t("orders.statusUpdateError"));
     }
   };
 
@@ -83,34 +84,34 @@ const AdminOrders = () => {
   return (
     <div className="text-white min-h-screen p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">Order Management</h2>
+        <h2 className="text-2xl font-semibold">{t("orders.title")}</h2>
         <div className="flex gap-3">
           <button
             onClick={exportCSV}
             className="bg-white text-black px-4 py-2 rounded hover:bg-gray-300"
           >
-            <FaDownload className="inline mr-2" /> Export CSV
+            <FaDownload className="inline mr-2" /> {t("orders.exportCSV")}
           </button>
           <button
             onClick={exportPDF}
             className="bg-white text-black px-4 py-2 rounded hover:bg-gray-300"
           >
-            <FaDownload className="inline mr-2" /> Export PDF
+            <FaDownload className="inline mr-2" /> {t("orders.exportPDF")}
           </button>
         </div>
       </div>
 
       <Table
         headers={[
-          "Product",
-          "Category",
-          "Buyer",
-          "Vendor",
-          "Price",
-          "Fee",
-          "Total",
-          "Status",
-          "Date",
+          t("orders.product"),
+          t("orders.category"),
+          t("orders.buyer"),
+          t("orders.vendor"),
+          t("orders.price"),
+          t("orders.fee"),
+          t("orders.total"),
+          t("orders.status"),
+          t("orders.date"),
         ]}
         rows={orders.map((order) => [
           order.product?.title || "N/A",
@@ -125,9 +126,9 @@ const AdminOrders = () => {
             onChange={(e) => updateStatus(order._id, e.target.value)}
             className="bg-black text-white border px-2 py-1 rounded"
           >
-            <option value="placed">Placed</option>
-            <option value="cancelled">Cancelled</option>
-            <option value="delivered">Delivered</option>
+            <option value="placed">{t("orders.placed")}</option>
+            <option value="cancelled">{t("orders.cancelled")}</option>
+            <option value="delivered">{t("orders.delivered")}</option>
           </select>,
           new Date(order.createdAt).toLocaleDateString(),
         ])}

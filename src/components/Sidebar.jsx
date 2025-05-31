@@ -1,8 +1,12 @@
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { useSidebar } from "./SidebarContext";
 import {
-  FaUsers, FaClipboardList, FaBars, FaChartBar,
-  FaUserClock, FaSignOutAlt
+  FaUsers,
+  FaClipboardList,
+  FaBars,
+  FaChartBar,
+  FaUserClock,
+  FaSignOutAlt,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -12,7 +16,7 @@ const Sidebar = () => {
   const { role } = useParams(); // should be "admin"
   const location = useLocation();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const basePath = `/dashboard/${role}`;
 
@@ -91,7 +95,8 @@ const Sidebar = () => {
                   className={`flex items-center gap-7 px-6 py-3 rounded-md text-sm font-medium transition
                     ${isActive(link.path)
                       ? "bg-gray-200 text-black font-semibold"
-                      : "text-gray-700 hover:bg-gray-100 hover:text-black"}
+                      : "text-gray-700 hover:bg-gray-100 hover:text-black"
+                    }
                   `}
                   title={!isOpen ? t(`sidebar.${link.name}`) : ""}
                 >
@@ -111,6 +116,20 @@ const Sidebar = () => {
                 </Link>
               </motion.div>
             ))}
+            <div className="flex ml-5 gap-2 mr-4">
+              <button
+                onClick={() => i18n.changeLanguage("en")}
+                className="text-xs border px-2 py-1 rounded hover:bg-gray-100 min-w-[50px]"
+              >
+                EN
+              </button>
+              <button
+                onClick={() => i18n.changeLanguage("zh")}
+                className="text-xs border px-2 py-1 rounded hover:bg-gray-100 min-w-[50px]"
+              >
+                中文
+              </button>
+            </div>
           </div>
         </div>
 

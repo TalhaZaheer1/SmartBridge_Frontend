@@ -28,11 +28,11 @@ const Register = () => {
 
   console.log("Form submitted:", form); // ✅ Log form data
 
-  if (!form.name || !form.email || !form.password || !form.phone) {
+  if (!form.name || !form.password || !form.phone) {
     toast.error("Please fill in all fields.");
     return;
   }
-  if (!isValidEmail(form.email)) {
+  if (form.email && !isValidEmail(form.email)) {
     toast.error("Enter a valid email address.");
     return;
   }
@@ -40,8 +40,9 @@ const Register = () => {
   setLoading(true);
   try {
     await register(form);
-    toast.success("Registered successfully! Please verify your email.");
-    navigate("/verify-otp", { state: { email: form.email } });
+    toast.success("Registered successfully!.");
+    navigate("/login")
+    // navigate("/verify-otp", { state: { email: form.email } });
   } catch (err) {
     console.error("Registration error:", err); // ✅ Log backend error
     toast.error(err.response?.data?.message || "Registration failed.");
@@ -134,9 +135,8 @@ const Register = () => {
               type="email"
               value={form.email}
               onChange={handleChange}
-              placeholder="Email"
+              placeholder="Email (not required)"
               className="w-full px-4 py-3 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-black focus:outline-none"
-              required
             />
             <input
               name="phone"

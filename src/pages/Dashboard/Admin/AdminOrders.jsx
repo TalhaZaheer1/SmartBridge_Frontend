@@ -3,11 +3,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { FaDownload } from "react-icons/fa";
 import Table from "../../../components/Table";
-import { API_URL } from "../../../api/recruiter";
-import { useTranslation } from "react-i18next";
+
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 
 const AdminOrders = () => {
-  const { t } = useTranslation();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -17,11 +17,12 @@ const AdminOrders = () => {
       const res = await axios.get(`${API_URL}/orders/admin/all`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
+
       const data = Array.isArray(res.data.orders) ? res.data.orders : [];
       setOrders(data);
     } catch (err) {
       console.error("Fetch error:", err);
-      toast.error(t("orders.loadError"));
+      toast.error("Failed to load orders");
     } finally {
       setLoading(false);
     }
@@ -40,7 +41,7 @@ const AdminOrders = () => {
       document.body.appendChild(link);
       link.click();
     } catch (err) {
-      toast.error(t("orders.exportCSVError"));
+      toast.error("CSV export failed");
     }
   };
 
@@ -57,7 +58,7 @@ const AdminOrders = () => {
       document.body.appendChild(link);
       link.click();
     } catch (err) {
-      toast.error(t("orders.exportPDFError"));
+      toast.error("PDF export failed");
     }
   };
 
@@ -68,12 +69,12 @@ const AdminOrders = () => {
         { status },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
+        },
       );
-      toast.success(t("orders.statusUpdated"));
+      toast.success("Order status updated");
       fetchOrders();
     } catch (err) {
-      toast.error(t("orders.statusUpdateError"));
+      toast.error("Failed to update status");
     }
   };
 
@@ -84,34 +85,34 @@ const AdminOrders = () => {
   return (
     <div className="text-white min-h-screen p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">{t("orders.title")}</h2>
+        <h2 className="text-2xl font-semibold">Order Management</h2>
         <div className="flex gap-3">
           <button
             onClick={exportCSV}
             className="bg-white text-black px-4 py-2 rounded hover:bg-gray-300"
           >
-            <FaDownload className="inline mr-2" /> {t("orders.exportCSV")}
+            <FaDownload className="inline mr-2" /> Export CSV
           </button>
           <button
             onClick={exportPDF}
             className="bg-white text-black px-4 py-2 rounded hover:bg-gray-300"
           >
-            <FaDownload className="inline mr-2" /> {t("orders.exportPDF")}
+            <FaDownload className="inline mr-2" /> Export PDF
           </button>
         </div>
       </div>
 
       <Table
         headers={[
-          t("orders.product"),
-          t("orders.category"),
-          t("orders.buyer"),
-          t("orders.vendor"),
-          t("orders.price"),
-          t("orders.fee"),
-          t("orders.total"),
-          t("orders.status"),
-          t("orders.date"),
+          "Product",
+          "Category",
+          "Buyer",
+          "Vendor",
+          "Price",
+          "Fee",
+          "Total",
+          "Status",
+          "Date",
         ]}
         rows={orders.map((order) => [
           order.product?.title || "N/A",
@@ -126,9 +127,9 @@ const AdminOrders = () => {
             onChange={(e) => updateStatus(order._id, e.target.value)}
             className="bg-black text-white border px-2 py-1 rounded"
           >
-            <option value="placed">{t("orders.placed")}</option>
-            <option value="cancelled">{t("orders.cancelled")}</option>
-            <option value="delivered">{t("orders.delivered")}</option>
+            <option value="placed">Placed</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="delivered">Delivered</option>
           </select>,
           new Date(order.createdAt).toLocaleDateString(),
         ])}

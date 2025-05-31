@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { API_URL } from "../../../api/recruiter";
-import { useTranslation } from "react-i18next";
 
-const AdminpaymentPage = () => {
-  const { t } = useTranslation();
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
+
+const AdminPaymentPage = () => {
   const [formData, setFormData] = useState({
     wechatId: "",
     usdtAddress: "",
@@ -17,6 +17,7 @@ const AdminpaymentPage = () => {
   const [usdtQr, setUsdtQr] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Fetch existing payment config on mount
   useEffect(() => {
     const fetchConfig = async () => {
       try {
@@ -28,23 +29,26 @@ const AdminpaymentPage = () => {
           description2: res.data.description2 || "",
         });
       } catch (err) {
-        toast.error(t("payment1.loadError"));
+        toast.error("Failed to load payment config");
       }
     };
 
     fetchConfig();
-  }, [t]);
+  }, []);
 
+  // Input field change handler
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // File input change handler
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     if (name === "wechatQr") setWechatQr(files[0]);
     if (name === "usdtQr") setUsdtQr(files[0]);
   };
 
+  // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -56,9 +60,9 @@ const AdminpaymentPage = () => {
 
     try {
       await axios.post(`${API_URL}/payment/update`, payload);
-      toast.success(t("payment1.success"));
+      toast.success("Payment config updated successfully");
     } catch (err) {
-      toast.error(t("payment1.error"));
+      toast.error("Update failed");
     } finally {
       setLoading(false);
     }
@@ -66,10 +70,11 @@ const AdminpaymentPage = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded shadow mt-8">
-      <h2 className="text-2xl font-semibold mb-6">{t("payment1.title")}</h2>
+      <h2 className="text-2xl font-semibold mb-6">Admin – Payment Page Configuration</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* WeChat ID */}
         <div>
-          <label className="block font-medium">{t("payment1.wechatId")}</label>
+          <label className="block font-medium">WeChat ID</label>
           <input
             type="text"
             name="wechatId"
@@ -79,8 +84,9 @@ const AdminpaymentPage = () => {
           />
         </div>
 
+        {/* WeChat QR Upload */}
         <div>
-          <label className="block font-medium">{t("payment1.wechatQr")}</label>
+          <label className="block font-medium">WeChat QR Code</label>
           <input
             type="file"
             name="wechatQr"
@@ -90,8 +96,9 @@ const AdminpaymentPage = () => {
           />
         </div>
 
+        {/* USDT Wallet Address */}
         <div>
-          <label className="block font-medium">{t("payment1.usdtAddress")}</label>
+          <label className="block font-medium">USDT Wallet Address (TRC20)</label>
           <input
             type="text"
             name="usdtAddress"
@@ -101,8 +108,9 @@ const AdminpaymentPage = () => {
           />
         </div>
 
+        {/* USDT QR Upload */}
         <div>
-          <label className="block font-medium">{t("payment1.usdtQr")}</label>
+          <label className="block font-medium">USDT Wallet QR Code</label>
           <input
             type="file"
             name="usdtQr"
@@ -112,8 +120,9 @@ const AdminpaymentPage = () => {
           />
         </div>
 
+        {/* Descriptions */}
         <div>
-          <label className="block font-medium">{t("payment1.description1")}</label>
+          <label className="block font-medium">Description 1: How Payment Works</label>
           <textarea
             name="description1"
             value={formData.description1}
@@ -124,7 +133,7 @@ const AdminpaymentPage = () => {
         </div>
 
         <div>
-          <label className="block font-medium">{t("payment1.description2")}</label>
+          <label className="block font-medium">Description 2: Store-Level Benefits</label>
           <textarea
             name="description2"
             value={formData.description2}
@@ -134,16 +143,17 @@ const AdminpaymentPage = () => {
           />
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading}
           className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
         >
-          {loading ? t("payment1.updating") : t("payment1.updateBtn")}
+          {loading ? "Updating..." : "Update Config"}
         </button>
       </form>
     </div>
   );
 };
 
-export default AdminpaymentPage;
+export default AdminPaymentPage;

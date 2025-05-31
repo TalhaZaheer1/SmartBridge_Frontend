@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
+
 const VerifyEmail = () => {
   console.log("✅ verifyEmail endpoint called");
   const { token } = useParams();
@@ -13,7 +16,7 @@ const VerifyEmail = () => {
   useEffect(() => {
     const verify = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/auth/verify-email/${token}`);
+        const res = await axios.get(`${API_URL}/auth/verify-email/${token}`);
         console.log(res)
         toast.success(res.data.message);
         setStatus("Email verified successfully! Redirecting to login...");

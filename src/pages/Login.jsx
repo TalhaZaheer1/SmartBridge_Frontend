@@ -4,6 +4,9 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
+
 const Login = () => {
   const { t } = useTranslation();
   const [form, setForm] = useState({ phone: "", password: "" });
@@ -41,7 +44,7 @@ const Login = () => {
   };
 
   const handleOAuth = (provider) => {
-    window.location.href = `http://localhost:5000/api/auth/${provider}`;
+    window.location.href = `${API_URL}/auth/${provider}`;
   };
 
   return (

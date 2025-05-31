@@ -3,6 +3,9 @@ import { register } from "../api/auth";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
+
 const Register = () => {
   const [form, setForm] = useState({
     name: "",
@@ -49,7 +52,7 @@ const Register = () => {
 
 
   const handleOAuth = (provider) => {
-    window.location.href = `http://localhost:5000/api/auth/${provider}`;
+    window.location.href = `${API_URL}/auth/${provider}`;
   };
 
   return (

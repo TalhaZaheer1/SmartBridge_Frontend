@@ -30,7 +30,7 @@ const fetchSelectable = async () => {
 
 const fetchMine = async () => {
   try {
-    const res = await axios.get(`http://localhost:5000/api/products/mine`, {
+    const res = await axios.get(`${API_URL}/products/mine`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
 
@@ -50,7 +50,7 @@ const fetchMine = async () => {
 const adoptProduct = async (id) => {
   try {
     await axios.put(
-      `http://localhost:5000/api/products/adopt/${id}`,
+      `${API_URL}/products/adopt/${id}`,
       {},
       {
         headers: {

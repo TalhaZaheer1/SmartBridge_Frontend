@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useCart } from "../context/CartContext";
+import { API_URL } from "../api/recruiter";
 
 const FloatingInput = ({ label, value, onChange, type = "text" }) => (
   <div className="relative">
@@ -36,7 +37,7 @@ const SearchBar = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/products/public");
+      const res = await axios.get(`${API_URL}/products/public`);
       setProducts(res.data.products || res.data); // Adjust if needed
     } catch (err) {
       toast.error("Failed to load products");

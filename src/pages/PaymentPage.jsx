@@ -3,8 +3,10 @@ import { FaCopy } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/Navbar";
-import { API_URL } from "../api/recruiter";
 import { API_IMAGE_URL } from "./Dashboard/Admin/AdminProducts";
+
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 
 const PaymentPage = () => {
   const [config, setConfig] = useState(null);

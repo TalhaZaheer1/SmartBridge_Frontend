@@ -3,6 +3,9 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { FaPlus, FaTrash, FaTimes } from "react-icons/fa";
 import Table from "../../../components/Table";
+import { API_URL } from "../../../api/recruiter";
+
+export const API_IMAGE_URL= import.meta.env.VITE_API_IMAGE_URL || "http://localhost:5000";
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
@@ -18,7 +21,7 @@ const AdminProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/products", {
+      const res = await axios.get(`${API_URL}/products`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
@@ -47,7 +50,7 @@ const AdminProducts = () => {
         if (val) formData.append(key, val);
       });
 
-      await axios.post("http://localhost:5000/api/products", formData, {
+      await axios.post(`${API_URL}/products`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -73,7 +76,7 @@ const AdminProducts = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/products/${id}`, {
+      await axios.delete(`${API_URL}/products/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       toast.success("Product deleted");
@@ -100,7 +103,7 @@ const AdminProducts = () => {
       <Table
         headers={["Image", "Title", "Price", "Category", "Store Levels", "Actions"]}
         rows={products.map((p) => [
-          <img src={`http://localhost:5000${p.image}`} alt={p.title} className="w-14 h-14 object-cover rounded" />,
+          <img src={`${API_IMAGE_URL}${p.image}`} alt={p.title} className="w-14 h-14 object-cover rounded" />,
           p.title,
           `$${p.price}`,
           p.category,

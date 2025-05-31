@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_URL } from "../api/recruiter";
 
 const VendorProducts = () => {
   const [selectable, setSelectable] = useState([]);
@@ -9,7 +10,7 @@ const VendorProducts = () => {
 
 const fetchSelectable = async () => {
   try {
-    const res = await axios.get(`http://localhost:5000/api/products/selectable`, {
+    const res = await axios.get(`${API_URL}/products/selectable`, {
       params: category ? { category } : {},
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, // ✅ Add token if protected
     });

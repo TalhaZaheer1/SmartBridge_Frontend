@@ -3,6 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { FaDownload } from "react-icons/fa";
 import Table from "../../../components/Table";
+import { API_URL } from "../../../api/recruiter";
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -11,7 +12,7 @@ const AdminOrders = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/orders/admin/all", {
+      const res = await axios.get(`${API_URL}/orders/admin/all`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
@@ -27,7 +28,7 @@ const AdminOrders = () => {
 
   const exportCSV = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/orders/admin/export/csv", {
+      const res = await axios.get(`${API_URL}/orders/admin/export/csv`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         responseType: "blob",
       });
@@ -44,7 +45,7 @@ const AdminOrders = () => {
 
   const exportPDF = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/orders/admin/export/pdf", {
+      const res = await axios.get(`${API_URL}/orders/admin/export/pdf`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         responseType: "blob",
       });
@@ -62,11 +63,11 @@ const AdminOrders = () => {
   const updateStatus = async (orderId, status) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/orders/${orderId}/status`,
+        `${API_URL}/orders/${orderId}/status`,
         { status },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
+        },
       );
       toast.success("Order status updated");
       fetchOrders();
@@ -84,17 +85,33 @@ const AdminOrders = () => {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-semibold">Order Management</h2>
         <div className="flex gap-3">
-          <button onClick={exportCSV} className="bg-white text-black px-4 py-2 rounded hover:bg-gray-300">
+          <button
+            onClick={exportCSV}
+            className="bg-white text-black px-4 py-2 rounded hover:bg-gray-300"
+          >
             <FaDownload className="inline mr-2" /> Export CSV
           </button>
-          <button onClick={exportPDF} className="bg-white text-black px-4 py-2 rounded hover:bg-gray-300">
+          <button
+            onClick={exportPDF}
+            className="bg-white text-black px-4 py-2 rounded hover:bg-gray-300"
+          >
             <FaDownload className="inline mr-2" /> Export PDF
           </button>
         </div>
       </div>
 
       <Table
-        headers={["Product", "Category", "Buyer", "Vendor", "Price", "Fee", "Total", "Status", "Date"]}
+        headers={[
+          "Product",
+          "Category",
+          "Buyer",
+          "Vendor",
+          "Price",
+          "Fee",
+          "Total",
+          "Status",
+          "Date",
+        ]}
         rows={orders.map((order) => [
           order.product?.title || "N/A",
           order.product?.category || "N/A",

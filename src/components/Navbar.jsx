@@ -6,6 +6,9 @@ import logo from '../assets/MAIN.png';
 import { useCart } from '../context/CartContext';
 import axios from "axios";
 import toast from "react-hot-toast";
+import { API_URL } from '../api/recruiter';
+
+
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -25,7 +28,7 @@ const Navbar = () => {
     const fetchUserProfile = async () => {
       try {
         if (!token) return;
-        const res = await axios.get("http://localhost:5000/api/auth/profile", {
+        const res = await axios.get(`${API_URL}/auth/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const user = res.data.user;
@@ -50,7 +53,7 @@ const Navbar = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/orders/admin/create",
+        `${API_URL}/orders/admin/create`,
         { productId },
         { headers: { Authorization: `Bearer ${token}` } }
       );

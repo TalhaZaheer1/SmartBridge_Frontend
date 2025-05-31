@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { API_URL } from "../../../api/recruiter";
 
 const AdminPaymentPage = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +19,7 @@ const AdminPaymentPage = () => {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/payment/config");
+        const res = await axios.get(`${API_URL}/payment/config`);
         setFormData({
           wechatId: res.data.wechatId || "",
           usdtAddress: res.data.usdtAddress || "",
@@ -56,7 +57,7 @@ const AdminPaymentPage = () => {
     if (usdtQr) payload.append("usdtQr", usdtQr);
 
     try {
-      await axios.post("http://localhost:5000/api/payment/update", payload);
+      await axios.post(`${API_URL}/payment/update`, payload);
       toast.success("Payment config updated successfully");
     } catch (err) {
       toast.error("Update failed");

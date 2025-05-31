@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { FiUser, FiTrendingUp, FiCreditCard } from "react-icons/fi";
+import { API_URL } from "../api/recruiter";
 
 const Account = () => {
   const [profile, setProfile] = useState(null);
@@ -15,13 +16,13 @@ const Account = () => {
     setLoading(true);
     try {
       const [profileRes, rechargeRes, statsRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/auth/profile", {
+        axios.get(`${API_URL}/auth/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axios.get("http://localhost:5000/api/recharges/my", {
+        axios.get(`${API_URL}/recharges/my`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axios.get("http://localhost:5000/api/users/dashboard/customer", {
+        axios.get(`${API_URL}/users/dashboard/customer`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);

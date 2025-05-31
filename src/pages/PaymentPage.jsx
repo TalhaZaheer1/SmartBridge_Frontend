@@ -3,6 +3,8 @@ import { FaCopy } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/Navbar";
+import { API_URL } from "../api/recruiter";
+import { API_IMAGE_URL } from "./Dashboard/Admin/AdminProducts";
 
 const PaymentPage = () => {
   const [config, setConfig] = useState(null);
@@ -10,7 +12,7 @@ const PaymentPage = () => {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/payment/config");
+        const res = await fetch(`${API_URL}/payment/config`);
         const data = await res.json();
         setConfig(data);
       } catch (error) {
@@ -55,7 +57,7 @@ const PaymentPage = () => {
           <div className="bg-white shadow rounded-lg p-4 border">
             <h2 className="text-xl font-semibold mb-3">WeChat Payment</h2>
             <img
-              src={`http://localhost:5000/${wechatQr}`}
+              src={`${API_IMAGE_URL}/${wechatQr}`}
               alt="WeChat QR"
               className="w-full h-auto rounded border"
             />
@@ -78,7 +80,7 @@ const PaymentPage = () => {
           <div className="bg-white shadow rounded-lg p-4 border">
             <h2 className="text-xl font-semibold mb-3">USDT (TRC20) Payment</h2>
             <img
-              src={`http://localhost:5000/${usdtQr}`}
+              src={`${API_IMAGE_URL}/${usdtQr}`}
               alt="USDT QR"
               className="w-full h-auto rounded border"
             />

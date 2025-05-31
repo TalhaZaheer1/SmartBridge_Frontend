@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { API_URL } from "../api/recruiter";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
@@ -10,65 +9,62 @@ const VendorProducts = () => {
   const [mine, setMine] = useState([]);
   const [category, setCategory] = useState("");
 
-const fetchSelectable = async () => {
-  try {
-    const res = await axios.get(`${API_URL}/products/selectable`, {
-      params: category ? { category } : {},
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, // ✅ Add token if protected
-    });
+  const fetchSelectable = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/products/selectable`, {
+        params: category ? { category } : {},
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, // ✅ Add token if protected
+      });
 
-    if (Array.isArray(res.data)) {
-      setSelectable(res.data);
-    } else {
-      setSelectable([]); // fallback
-      console.warn("Expected an array but got:", res.data);
-    }
-  } catch (err) {
-    toast.error("Failed to load selectable products");
-    setSelectable([]); // reset to empty array to prevent map crash
-  }
-};
-
-
-const fetchMine = async () => {
-  try {
-    const res = await axios.get(`${API_URL}/products/mine`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    });
-
-    if (Array.isArray(res.data)) {
-      setMine(res.data);
-    } else {
-      setMine([]);
-      console.warn("Expected an array but got:", res.data);
-    }
-  } catch (err) {
-    toast.error("Failed to load your products");
-    setMine([]);
-  }
-};
-
-
-const adoptProduct = async (id) => {
-  try {
-    await axios.put(
-      `${API_URL}/products/adopt/${id}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+      if (Array.isArray(res.data)) {
+        setSelectable(res.data);
+      } else {
+        setSelectable([]); // fallback
+        console.warn("Expected an array but got:", res.data);
       }
-    );
+    } catch (err) {
+      toast.error("Failed to load selectable products");
+      setSelectable([]); // reset to empty array to prevent map crash
+    }
+  };
 
-    toast.success("Product adopted");
-    fetchSelectable();
-    fetchMine();
-  } catch (err) {
-    toast.error(err.response?.data?.message || "Failed to adopt");
-  }
-};
+  const fetchMine = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/products/mine`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
 
+      if (Array.isArray(res.data)) {
+        setMine(res.data);
+      } else {
+        setMine([]);
+        console.warn("Expected an array but got:", res.data);
+      }
+    } catch (err) {
+      toast.error("Failed to load your products");
+      setMine([]);
+    }
+  };
+
+  const adoptProduct = async (id) => {
+    try {
+      await axios.put(
+        `${API_URL}/products/adopt/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+
+      toast.success("Product adopted");
+      fetchSelectable();
+      fetchMine();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to adopt");
+    }
+  };
 
   useEffect(() => {
     fetchSelectable();
@@ -98,7 +94,11 @@ const adoptProduct = async (id) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {selectable.map((prod) => (
           <div key={prod._id} className="border p-4 rounded shadow-sm">
-            <img src={prod.image} alt={prod.title} className="w-full h-48 object-cover rounded mb-2" />
+            <img
+              src={prod.image}
+              alt={prod.title}
+              className="w-full h-48 object-cover rounded mb-2"
+            />
             <h3 className="text-lg font-semibold">{prod.title}</h3>
             <p className="text-gray-500">{prod.category}</p>
             <p className="text-sm text-gray-700">{prod.description}</p>
@@ -118,7 +118,11 @@ const adoptProduct = async (id) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {mine.map((prod) => (
           <div key={prod._id} className="border p-4 rounded shadow-sm">
-            <img src={prod.image} alt={prod.title} className="w-full h-48 object-cover rounded mb-2" />
+            <img
+              src={prod.image}
+              alt={prod.title}
+              className="w-full h-48 object-cover rounded mb-2"
+            />
             <h3 className="text-lg font-semibold">{prod.title}</h3>
             <p className="text-gray-500">{prod.category}</p>
             <p className="font-bold mt-2">${prod.price}</p>

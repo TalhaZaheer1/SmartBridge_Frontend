@@ -1,13 +1,20 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaShoppingCart, FaUser, FaSearch, FaTimes, FaBars } from 'react-icons/fa';
-import logo from '../assets/MAIN-bg.png';
-import { useCart } from '../context/CartContext';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FaShoppingCart,
+  FaUser,
+  FaSearch,
+  FaTimes,
+  FaBars,
+} from "react-icons/fa";
+import logo from "../assets/MAIN-bg.png";
+import { useCart } from "../context/CartContext";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { API_URL } from "../api/recruiter";
 import { useTranslation } from "react-i18next";
+
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -17,7 +24,8 @@ const Navbar = () => {
   const [balance, setBalance] = useState(0);
   const [userRole, setUserRole] = useState("");
   const { t, i18n } = useTranslation();
-const API_IMAGE_URL = import.meta.env.VITE_API_IMAGE_URL || "http://localhost:5000";
+  const API_IMAGE_URL =
+    import.meta.env.VITE_API_IMAGE_URL || "http://localhost:5000";
   const token = localStorage.getItem("token");
   const { cart, increment, decrement, clearCart } = useCart();
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -81,33 +89,55 @@ const API_IMAGE_URL = import.meta.env.VITE_API_IMAGE_URL || "http://localhost:50
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrollY > 10 ? 'bg-black shadow-md' : 'bg-black'}`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrollY > 10 ? "bg-black shadow-md" : "bg-black"}`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-3 flex justify-between items-center text-white h-[72px]">
         <Link to="/" className="flex items-center gap-2 mt-3">
-          <img src={logo} alt="Logo" className="max-h-36 sm:max-h-32 w-auto object-contain" />
+          <img
+            src={logo}
+            alt="Logo"
+            className="max-h-36 sm:max-h-32 w-auto object-contain"
+          />
         </Link>
 
-
         <ul className="hidden lg:flex items-center gap-6 text-sm font-medium">
-          {[{ label: t('home'), to: '/' }, { label: t('shop'), to: '/shop' }, { label: t('categories'), to: '/categories' }, { label: t('contact'), to: '/contact' }]
-            .map((item) => (
-              <li key={item.to}>
-                <Link to={item.to} className="hover:text-gray-300 transition">{item.label}</Link>
-              </li>
-            ))}
+          {[
+            { label: t("home"), to: "/" },
+            { label: t("shop"), to: "/shop" },
+            { label: t("categories"), to: "/categories" },
+            { label: t("contact"), to: "/contact" },
+          ].map((item) => (
+            <li key={item.to}>
+              <Link to={item.to} className="hover:text-gray-300 transition">
+                {item.label}
+              </Link>
+            </li>
+          ))}
         </ul>
 
         <div className="hidden lg:flex items-center gap-4 text-sm">
           <div className="flex gap-2 mr-4">
-            <button onClick={() => i18n.changeLanguage('en')} className="text-xs border border-white text-white px-2 py-1 rounded hover:bg-white hover:text-black min-w-[50px]">EN</button>
-            <button onClick={() => i18n.changeLanguage('zh')} className="text-xs border border-white text-white px-2 py-1 rounded hover:bg-white hover:text-black min-w-[50px]">中文</button>
+            <button
+              onClick={() => i18n.changeLanguage("en")}
+              className="text-xs border border-white text-white px-2 py-1 rounded hover:bg-white hover:text-black min-w-[50px]"
+            >
+              EN
+            </button>
+            <button
+              onClick={() => i18n.changeLanguage("zh")}
+              className="text-xs border border-white text-white px-2 py-1 rounded hover:bg-white hover:text-black min-w-[50px]"
+            >
+              中文
+            </button>
           </div>
 
           {token ? (
             <>
               <FaSearch className="hover:text-gray-300 transition cursor-pointer" />
-              <button onClick={() => setShowCartDrawer(true)} className="relative">
+              <button
+                onClick={() => setShowCartDrawer(true)}
+                className="relative"
+              >
                 <FaShoppingCart className="hover:text-gray-300 transition cursor-pointer" />
                 {cartCount > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1.5">
@@ -117,16 +147,43 @@ const API_IMAGE_URL = import.meta.env.VITE_API_IMAGE_URL || "http://localhost:50
               </button>
 
               <div className="relative user-dropdown">
-                <button onClick={() => setUserMenuOpen((prev) => !prev)} className="hover:text-gray-300 transition cursor-pointer">
+                <button
+                  onClick={() => setUserMenuOpen((prev) => !prev)}
+                  className="hover:text-gray-300 transition cursor-pointer"
+                >
                   <FaUser />
                 </button>
 
                 {userMenuOpen && (
                   <div className="absolute right-0 mt-3 w-44 bg-white border border-gray-200 rounded-lg shadow-md text-sm text-black z-50">
-                    <Link to="/account" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2 hover:bg-gray-100">{t("myAccount")}</Link>
-                    <Link to="/orders" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2 hover:bg-gray-100">{t("orders-nav")}</Link>
-                    <Link to="/wishlist" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2 hover:bg-gray-100">{t("wishlist")}</Link>
-                    <Link to="/payment" onClick={() => setUserMenuOpen(false)} className="block px-4 py-2 hover:bg-gray-100">{t("payment.title")}</Link>
+                    <Link
+                      to="/account"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      {t("myAccount")}
+                    </Link>
+                    <Link
+                      to="/orders"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      {t("orders-nav")}
+                    </Link>
+                    <Link
+                      to="/wishlist"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      {t("wishlist")}
+                    </Link>
+                    <Link
+                      to="/payment"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      {t("payment.title")}
+                    </Link>
                     {userRole === "store" && (
                       <Link
                         to="/store/products"
@@ -150,13 +207,24 @@ const API_IMAGE_URL = import.meta.env.VITE_API_IMAGE_URL || "http://localhost:50
               </div>
 
               <span className="text-sm text-gray-300 font-medium ml-2">
-                {t("balance")}: <span className="text-white">${balance.toFixed(2)}</span>
+                {t("balance")}:{" "}
+                <span className="text-white">${balance.toFixed(2)}</span>
               </span>
             </>
           ) : (
             <>
-              <Link to="/login" className="px-4 py-2 border border-white text-white rounded hover:bg-white hover:text-black transition">{t("signIn")}</Link>
-              <Link to="/register" className="px-4 py-2 bg-white text-black rounded hover:bg-gray-200 transition">{t("signUp")}</Link>
+              <Link
+                to="/login"
+                className="px-4 py-2 border border-white text-white rounded hover:bg-white hover:text-black transition"
+              >
+                {t("signIn")}
+              </Link>
+              <Link
+                to="/register"
+                className="px-4 py-2 bg-white text-black rounded hover:bg-gray-200 transition"
+              >
+                {t("signUp")}
+              </Link>
             </>
           )}
         </div>
@@ -186,22 +254,72 @@ const API_IMAGE_URL = import.meta.env.VITE_API_IMAGE_URL || "http://localhost:50
             </div>
             <ul className="px-6 py-6 space-y-4 font-medium">
               {/* Navigation links */}
-              {[{ label: t('home'), to: '/' }, { label: t('shop'), to: '/shop' }, { label: t('categories'), to: '/categories' }, { label: t('contact'), to: '/contact' }]
-                .map((item) => (
-                  <li key={item.to}>
-                    <Link to={item.to} onClick={() => setOpen(false)} className="block py-2 hover:text-gray-400 transition">{item.label}</Link>
-                  </li>
-                ))}
+              {[
+                { label: t("home"), to: "/" },
+                { label: t("shop"), to: "/shop" },
+                { label: t("categories"), to: "/categories" },
+                { label: t("contact"), to: "/contact" },
+              ].map((item) => (
+                <li key={item.to}>
+                  <Link
+                    to={item.to}
+                    onClick={() => setOpen(false)}
+                    className="block py-2 hover:text-gray-400 transition"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
 
               {/* Auth/Account Links for Logged In Users */}
               {token && (
                 <>
-                  <li><Link to="/account" onClick={() => setOpen(false)} className="block py-2 hover:text-gray-400">{t("myAccount")}</Link></li>
-                  <li><Link to="/orders" onClick={() => setOpen(false)} className="block py-2 hover:text-gray-400">{t("orders-nav")}</Link></li>
-                  <li><Link to="/wishlist" onClick={() => setOpen(false)} className="block py-2 hover:text-gray-400">{t("wishlist")}</Link></li>
-                  <li><Link to="/payment" onClick={() => setOpen(false)} className="block py-2 hover:text-gray-400">{t("payment.title")}</Link></li>
+                  <li>
+                    <Link
+                      to="/account"
+                      onClick={() => setOpen(false)}
+                      className="block py-2 hover:text-gray-400"
+                    >
+                      {t("myAccount")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/orders"
+                      onClick={() => setOpen(false)}
+                      className="block py-2 hover:text-gray-400"
+                    >
+                      {t("orders-nav")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/wishlist"
+                      onClick={() => setOpen(false)}
+                      className="block py-2 hover:text-gray-400"
+                    >
+                      {t("wishlist")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/payment"
+                      onClick={() => setOpen(false)}
+                      className="block py-2 hover:text-gray-400"
+                    >
+                      {t("payment.title")}
+                    </Link>
+                  </li>
                   {userRole === "store" && (
-                    <li><Link to="/store/products" onClick={() => setOpen(false)} className="block py-2 hover:text-gray-400">{t("storeProducts")}</Link></li>
+                    <li>
+                      <Link
+                        to="/store/products"
+                        onClick={() => setOpen(false)}
+                        className="block py-2 hover:text-gray-400"
+                      >
+                        {t("storeProducts")}
+                      </Link>
+                    </li>
                   )}
                   <li>
                     <button
@@ -255,7 +373,6 @@ const API_IMAGE_URL = import.meta.env.VITE_API_IMAGE_URL || "http://localhost:50
                 </button>
               </div>
             </ul>
-
           </motion.div>
         )}
       </AnimatePresence>
@@ -284,10 +401,14 @@ const API_IMAGE_URL = import.meta.env.VITE_API_IMAGE_URL || "http://localhost:50
               ) : (
                 <div className="space-y-4">
                   {cart.map((item, index) => (
-                    <div key={index} className="flex items-center gap-4 border-b pb-3">
+                    <div
+                      key={index}
+                      className="flex items-center gap-4 border-b pb-3"
+                    >
                       <img
                         src={`${API_IMAGE_URL.replace(/\/$/, "")}/${item.image.replace(/^\/+/, "")}`}
-                        alt={item.name} className="w-16 h-16 object-cover rounded"
+                        alt={item.name}
+                        className="w-16 h-16 object-cover rounded"
                         onError={() => console.error("Image failed to load")}
                         crossOrigin="anonymous"
                       />

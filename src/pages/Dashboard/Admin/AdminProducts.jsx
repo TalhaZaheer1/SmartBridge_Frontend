@@ -3,10 +3,12 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { FaPlus, FaTrash, FaTimes } from "react-icons/fa";
 import Table from "../../../components/Table";
-import { API_URL } from "../../../api/recruiter";
 import { useTranslation } from "react-i18next";
 
-export const API_IMAGE_URL = import.meta.env.VITE_API_IMAGE_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
+export const API_IMAGE_URL =
+  import.meta.env.VITE_API_IMAGE_URL || "http://localhost:5000";
 
 const AdminProducts = () => {
   const { t } = useTranslation();
@@ -117,8 +119,7 @@ const AdminProducts = () => {
             className="w-14 h-14 object-cover rounded"
             onError={() => console.error("Image failed to load")}
             crossOrigin="anonymous"
-          />
-          ,
+          />,
           p.title,
           `$${p.price}`,
           p.category,
@@ -148,41 +149,53 @@ const AdminProducts = () => {
             >
               <FaTimes />
             </button>
-            <h3 className="text-lg font-semibold mb-4">{t("product.addProduct")}</h3>
+            <h3 className="text-lg font-semibold mb-4">
+              {t("product.addProduct")}
+            </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 type="text"
                 placeholder={t("product.productTitle")}
                 value={newProduct.title}
-                onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, title: e.target.value })
+                }
                 className="border px-3 py-2 rounded"
               />
               <input
                 type="text"
                 placeholder={t("product.category")}
                 value={newProduct.category}
-                onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, category: e.target.value })
+                }
                 className="border px-3 py-2 rounded"
               />
               <input
                 type="number"
                 placeholder={t("product.price")}
                 value={newProduct.price}
-                onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, price: e.target.value })
+                }
                 className="border px-3 py-2 rounded"
               />
               <input
                 type="text"
                 placeholder={t("product.storeLevelsPlaceholder")}
                 value={newProduct.storeLevels}
-                onChange={(e) => setNewProduct({ ...newProduct, storeLevels: e.target.value })}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, storeLevels: e.target.value })
+                }
                 className="border px-3 py-2 rounded"
               />
               <textarea
                 placeholder={t("product.description")}
                 value={newProduct.description}
-                onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, description: e.target.value })
+                }
                 className="border px-3 py-2 rounded md:col-span-2"
               />
               <div className="md:col-span-2">

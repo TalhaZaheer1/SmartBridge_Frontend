@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { useCart } from "../context/CartContext";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const API_IMAGE_URL = import.meta.env.VITE_API_IMAGE_URL || "http://localhost:5000";
 
 const FloatingInput = ({ label, value, onChange, type = "text" }) => (
   <div className="relative">
@@ -29,7 +30,6 @@ const SearchBar = () => {
   const [color, setColor] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);
-
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -39,13 +39,13 @@ const SearchBar = () => {
   const fetchProducts = async () => {
     try {
       const res = await axios.get(`${API_URL}/products/public`);
-      setProducts(res.data.products || res.data); // Adjust if needed
+      setProducts(res.data.products || res.data);
     } catch (err) {
       toast.error("Failed to load products");
     }
   };
 
-  const filtered = useMemo(() => {
+   const filtered = useMemo(() => {
     return products.filter((product) => {
       return (
         (!category || product.category?.toLowerCase().includes(category.toLowerCase())) &&
@@ -85,6 +85,7 @@ const SearchBar = () => {
         </div>
       </motion.div>
 
+
       {/* Product Cards */}
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-12"
@@ -102,9 +103,11 @@ const SearchBar = () => {
             >
               <div className="relative group">
                 <img
-                  src={item.image}
-                  alt={item.name}
+                  src={`${API_IMAGE_URL.replace(/\/$/, "")}/${item.image.replace(/^\/+/, "")}`}
+                  alt={item.title}
                   className="w-full h-64 object-cover rounded-t-xl transform group-hover:scale-105 transition duration-300 ease-in-out"
+                  onError={() => console.error("Image failed to load")}
+                  crossOrigin="anonymous"
                 />
                 <button
                   onClick={() => setSelectedProduct(item)}
@@ -114,11 +117,12 @@ const SearchBar = () => {
                 </button>
               </div>
               <div className="p-4 space-y-1">
-                <h3 className="text-base font-medium text-black">{item.name}</h3>
-                <p className="text-sm text-gray-500">{item.brand} • {item.color}</p>
-                <p className="text-sm text-gray-500">Size: {item.size}</p>
+                <h3 className="text-base font-medium text-black">{item.title}</h3>
+                <p className="text-sm text-gray-500">{item.category}</p>
+                <p className="text-sm text-gray-500">{item.description}</p>
+                <p className="text-sm text-gray-500">Vendor: {item.adoptedBy?.name || "N/A"}</p>
                 <div className="flex justify-between items-center mt-3">
-                  <span className="text-black font-bold text-lg">{item.price}</span>
+                  <span className="text-black font-bold text-lg">${item.price}</span>
                   <button
                     onClick={() => addToCart(item)}
                     className="text-sm bg-black hover:bg-gray-900 text-white px-4 py-1.5 rounded-md transition"
@@ -144,11 +148,17 @@ const SearchBar = () => {
             >
               ✕
             </button>
-            <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-56 object-cover rounded" />
-            <h3 className="text-lg font-bold text-black mt-4">{selectedProduct.name}</h3>
-            <p className="text-gray-600">{selectedProduct.brand} • {selectedProduct.color}</p>
-            <p className="text-sm text-gray-500 mb-2">Size: {selectedProduct.size}</p>
-            <p className="text-black font-bold text-xl mb-4">{selectedProduct.price}</p>
+            <img
+              src={`${API_IMAGE_URL.replace(/\/$/, "")}/${selectedProduct.image.replace(/^\/+/, "")}`}
+              alt={selectedProduct.title}
+              className="w-full h-56 object-cover rounded"
+              onError={() => console.error("Image failed to load")}
+              crossOrigin="anonymous"
+            />
+            <h3 className="text-lg font-bold text-black mt-4">{selectedProduct.title}</h3>
+            <p className="text-gray-600">{selectedProduct.description}</p>
+            <p className="text-sm text-gray-500">Vendor: {selectedProduct.adoptedBy?.name || "N/A"}</p>
+            <p className="text-black font-bold text-xl mb-4">${selectedProduct.price}</p>
             <button
               onClick={() => addToCart(selectedProduct)}
               className="text-sm bg-black hover:bg-gray-900 text-white px-4 py-1.5 rounded-md transition"

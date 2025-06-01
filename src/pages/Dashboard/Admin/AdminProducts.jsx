@@ -112,10 +112,13 @@ const AdminProducts = () => {
         ]}
         rows={products.map((p) => [
           <img
-            src={`${API_IMAGE_URL}${p.image}`}
+            src={`${API_IMAGE_URL.replace(/\/$/, "")}/${p.image.replace(/^\/+/, "")}`}
             alt={p.title}
             className="w-14 h-14 object-cover rounded"
-          />,
+            onError={() => console.error("Image failed to load")}
+            crossOrigin="anonymous"
+          />
+          ,
           p.title,
           `$${p.price}`,
           p.category,

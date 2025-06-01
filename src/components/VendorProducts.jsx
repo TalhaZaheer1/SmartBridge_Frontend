@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Navbar from "./Navbar";
 
-
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const API_IMAGE_URL = import.meta.env.VITE_API_IMAGE_URL || "http://localhost:5000";
 const VendorProducts = () => {
   const [selectable, setSelectable] = useState([]);
   const [mine, setMine] = useState([]);
@@ -14,6 +16,7 @@ const VendorProducts = () => {
         params: category ? { category } : {},
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, // ✅ Add token if protected
       });
+      console.log(res)
 
       if (Array.isArray(res.data)) {
         setSelectable(res.data);
@@ -71,7 +74,9 @@ const VendorProducts = () => {
   }, []);
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <>
+    <Navbar/>
+    <div className="p-6 max-w-7xl mx-auto mt-16">
       <h2 className="text-2xl font-bold mb-4">Select Products</h2>
 
       <div className="flex gap-2 mb-4">
@@ -93,11 +98,15 @@ const VendorProducts = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {selectable.map((prod) => (
           <div key={prod._id} className="border p-4 rounded shadow-sm">
+
             <img
-              src={prod.image}
+              src={`${API_IMAGE_URL.replace(/\/$/, "")}/${prod.image.replace(/^\/+/, "")}`}
               alt={prod.title}
               className="w-full h-48 object-cover rounded mb-2"
+              onError={() => console.error("Image failed to load")}
+              crossOrigin="anonymous"
             />
+
             <h3 className="text-lg font-semibold">{prod.title}</h3>
             <p className="text-gray-500">{prod.category}</p>
             <p className="text-sm text-gray-700">{prod.description}</p>
@@ -117,11 +126,15 @@ const VendorProducts = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {mine.map((prod) => (
           <div key={prod._id} className="border p-4 rounded shadow-sm">
+
             <img
-              src={prod.image}
+              src={`${API_IMAGE_URL.replace(/\/$/, "")}/${prod.image.replace(/^\/+/, "")}`}
               alt={prod.title}
               className="w-full h-48 object-cover rounded mb-2"
+              onError={() => console.error("Image failed to load")}
+              crossOrigin="anonymous"
             />
+
             <h3 className="text-lg font-semibold">{prod.title}</h3>
             <p className="text-gray-500">{prod.category}</p>
             <p className="font-bold mt-2">${prod.price}</p>
@@ -129,6 +142,7 @@ const VendorProducts = () => {
         ))}
       </div>
     </div>
+    </>
   );
 };
 

@@ -52,7 +52,7 @@ const PaymentPage = () => {
   return (
     <>
       <Navbar />
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 py-8 mt-16">
         <h1 className="text-3xl font-bold mb-6 text-center">{t("payment.title")}</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -61,10 +61,16 @@ const PaymentPage = () => {
             <div className="bg-white shadow rounded-lg p-4 border">
               <h2 className="text-xl font-semibold mb-3">{t("payment.wechat.title")}</h2>
               <img
-                src={`${API_IMAGE_URL}/${wechatQr}`}
-                alt="WeChat QR"
-                className="w-full h-auto rounded border"
+                src={`${API_IMAGE_URL.replace(/\/$/, "")}/${wechatQr.replace(/^\/+/, "")}`}
+                alt="QR"
+                className="w-full h-auto"
+                onError={() => console.error("Image failed to load")}
+                crossOrigin="anonymous"
               />
+
+
+
+
               <div className="mt-4 flex items-center">
                 <span className="font-medium">{t("payment.wechat.id")}:</span>
                 <span className="ml-2">{wechatId}</span>
@@ -84,10 +90,13 @@ const PaymentPage = () => {
             <div className="bg-white shadow rounded-lg p-4 border">
               <h2 className="text-xl font-semibold mb-3">{t("payment.usdt.title")}</h2>
               <img
-                src={`${API_IMAGE_URL}/${usdtQr}`}
-                alt="USDT QR"
-                className="w-full h-auto rounded border"
+                src={`${API_IMAGE_URL.replace(/\/$/, "")}/${usdtQr.replace(/^\/+/, "")}`}
+                alt="QR"
+                className="w-full h-auto"
+                onError={() => console.error("Image failed to load")}
+                crossOrigin="anonymous"
               />
+
               <div className="mt-4 flex items-center">
                 <span className="font-medium">{t("payment.usdt.address")}:</span>
                 <span className="ml-2 break-all">{usdtAddress}</span>
